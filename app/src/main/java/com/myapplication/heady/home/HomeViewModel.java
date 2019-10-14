@@ -20,8 +20,10 @@ import com.myapplication.heady.home.MyModels.Category;
 import com.myapplication.heady.home.MyModels.HomeModel;
 import com.myapplication.heady.home.MyModels.Product;
 import com.myapplication.heady.home.MyModels.ProductRanking;
+import com.myapplication.heady.home.MyModels.Ranking;
 import com.myapplication.heady.home.MyModels.Variant;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -99,8 +101,8 @@ public class HomeViewModel extends AndroidViewModel implements IWebServiceRespon
 
     public Product fetchProductAtPosition(int position) {
         Product product = getProductList().get(position);
-        if (product.getRankings() == null && productRankingMap.containsKey(""+product.getId())) {
-            product.setRankings(productRankingMap.get(""+product.getId()));
+        if (product.getRankings() == null && productRankingMap.containsKey("" + product.getId())) {
+            product.setRankings(productRankingMap.get("" + product.getId()));
         }
         return product;
     }
@@ -111,8 +113,48 @@ public class HomeViewModel extends AndroidViewModel implements IWebServiceRespon
 
     @Override
     public void onSuccess(Object response, String statusCode) {
+        HashMap<String, List<Product>> i = getMostViewedList((HomeModel) response);
+
         homeModelMutableLiveData.setValue((HomeModel) response);
+
         productRankingMap = repository.getProductIdVsRankingValue();
+    }
+
+    private HashMap<String, List<Product>> getMostViewedList(HomeModel homeModel) {
+
+        List<Ranking>rankings = homeModel.getRankings();
+
+        if(rankings != null && rankings.size() > 0) {
+            List<Product> mainProductsList = new ArrayList<>();
+            List<Product> rankedProductsList = new ArrayList<>();
+
+            HashMap<String, List<Product>> hshMapRankings = new HashMap<>();
+
+            for (int i = 0; i< rankings.size(); i++) {
+                List<Product> rankingProducts = rankings.get(i).getProducts();
+                for(int j=0; j < rankingProducts.size();j++){
+
+                    long productId = rankingProducts.get(j).getId();
+                    List<Product> interimProducts = homeModel.getCategories().get(i).getProducts();
+                    final int productPosition = i;
+                    Product rankedProduct = interimProducts.stream()
+                            .filter(product -> productId == interimProducts.get(productPosition).getId())
+                            .findAny()
+                            .orElse(null);
+
+                }
+
+
+
+//                        .filter(Product -> (rankings.get(i).getProducts().get(i).getId() == homeModel.getCategories().get(i).getProducts().get(i).getId())
+//                                .findAny()
+//                                .orElse(null);
+
+            }
+        }
+
+
+        return null;
     }
 
     @Override
@@ -122,6 +164,7 @@ public class HomeViewModel extends AndroidViewModel implements IWebServiceRespon
 
     public void setCategoryListInAdapter(List<Category> categories) {
         categoryDataAdapter.setCategories(categories);
+
         categoryDataAdapter.notifyDataSetChanged();
     }
 

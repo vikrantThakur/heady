@@ -58,8 +58,8 @@ public class Repository {
 
                                     for (int j = 0; j < products.size(); j++) {
 
-                                        if (productIdVsRankingValue.containsKey(""+products.get(j).getId())) {
-                                            productRankings = productIdVsRankingValue.get(""+products.get(j).getId());
+                                        if (productIdVsRankingValue.containsKey("" + products.get(j).getId())) {
+                                            productRankings = productIdVsRankingValue.get("" + products.get(j).getId());
 
                                             productRanking = new ProductRanking();
 
@@ -101,6 +101,7 @@ public class Repository {
                         @Override
                         protected void onPostExecute(Void aVoid) {
                             super.onPostExecute(aVoid);
+
 
                             iWebServiceResponseListener.onSuccess(homeModel, "" + response.code());
                         }
