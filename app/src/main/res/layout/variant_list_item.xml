@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="homeViewModel"
+            type="com.myapplication.heady.home.HomeViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{homeViewModel.fetchVariantByPosition(position).sizeinString}'
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:text='@{homeViewModel.fetchVariantByPosition(position).color}'
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:text='@{homeViewModel.fetchVariantByPosition(position).priceInString}'
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</layout>
